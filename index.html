@@ -128,6 +128,11 @@
         }
         .pin-input.correct { border-color: #35d07f; background: rgba(53,208,127,0.15); }
         .pin-input.wrong { border-color: #ff4d6d; animation: shake 0.5s; }
+        .pin-input:disabled { 
+            opacity: 0.4; 
+            cursor: not-allowed;
+            background: rgba(0,0,0,0.5);
+        }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
@@ -341,19 +346,26 @@
             });
             return allCorrect;
         }
-        function updateStatus(){
-            const pinsOk = checkPins();
+        function updateInputsState(){
             const timeOk = isUnlocked();
+            ['pin1','pin2','pin3','pin4'].forEach(id => {
+                const inp = document.getElementById(id);
+                inp.disabled = !timeOk;
+            });
+        }
+        function updateStatus(){
+            const timeOk = isUnlocked();
+            updateInputsState();
+            
             if(!timeOk){
-                if(pinsOk){
-                    statusMsg.textContent = '✅ ¡Claves correctas! Esperando las 00:00 del 25/12...';
-                    statusMsg.className = 'status-msg success';
-                } else {
-                    statusMsg.textContent = '🔐 Ingresen sus claves mientras esperan...';
-                    statusMsg.className = 'status-msg';
-                }
+                statusMsg.textContent = '⏳ Los campos se desbloquean a las 00:00 del 25/12...';
+                statusMsg.className = 'status-msg';
                 openBtn.classList.remove('ready');
-            } else if(!pinsOk){
+                return;
+            }
+            
+            const pinsOk = checkPins();
+            if(!pinsOk){
                 statusMsg.textContent = '🔐 Faltan claves o hay claves incorrectas';
                 statusMsg.className = 'status-msg error';
                 openBtn.classList.remove('ready');
