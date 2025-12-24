@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a1a">
+    <title>🎁 Un Regalo Especial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: radial-gradient(ellipse at 20% 15%, #1b2a57 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 30%, #3a1d5a 0%, transparent 50%),
+                        linear-gradient(180deg, #0a0a1a, #101a33);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #f3f6ff;
+        }
+
+        /* Efecto de luz giratorio */
+        .glow-bg {
+            position: fixed; inset: -40%;
+            background: conic-gradient(from 180deg, 
+                rgba(255,213,74,.15), rgba(255,77,109,.12),
+                rgba(53,208,127,.10), rgba(93,173,255,.12),
+                rgba(255,213,74,.15));
+            filter: blur(80px);
+            animation: spin 20s linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Estrellas de fondo */
+        .stars {
+            position: fixed; inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            width: 3px; height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            width: min(580px, 94vw);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 28px;
+            padding: 30px 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: rgba(243,246,255,0.75);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        /* Regalo 3D */
+        .gift-container {
+            perspective: 1000px;
+            padding: 20px 0;
+        }
+
+        .gift-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            width: 220px;
+            height: 240px;
+            filter: drop-shadow(0 20px 40px rgba(255,77,109,0.3));
+            animation: float 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-12px) rotateY(3deg); }
+        }
+
+        /* Brillo pulsante */
+        .gift-glow {
+            position: absolute;
+            inset: -20%;
+            border-radius: 30px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,213,74,0.4), transparent 50%),
+                        radial-gradient(circle at 70% 40%, rgba(255,77,109,0.35), transparent 50%),
+                        radial-gradient(circle at 50% 80%, rgba(93,173,255,0.25), transparent 50%);
+            filter: blur(3px);
+            animation: pulse 1.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+
+        .gift {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box-base {
+            width: 180px;
+            height: 120px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03)),
+                        linear-gradient(135deg, #ff3d68, #e91e4d);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .box-base::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 28px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffd700, #ffb703);
+            opacity: 0.95;
+        }
+
+        .box-lid {
+            width: 190px;
+            height: 55px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.04)),
+                        linear-gradient(135deg, #ff3d68, #e91e4d);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            margin-bottom: -8px;
+            transform-origin: bottom center;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .box-lid::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 28px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffd700, #ffb703);
+            opacity: 0.95;
+        }
+
+        .box-lid.open {
+            transform: rotateX(-100deg) translateY(-20px);
+        }
+
+        /* Moño */
+        .bow {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 45px;
+        }
+
+        .bow-loop {
+            position: absolute;
+            width: 35px;
+            height: 28px;
+            background: linear-gradient(135deg, #ffd700, #ffb703);
+            border-radius: 50% 50% 50% 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .bow-loop.left {
+            left: 0;
+            transform: rotate(-20deg);
+        }
+
+        .bow-loop.right {
+            right: 0;
+            transform: rotate(20deg) scaleX(-1);
+        }
+
+        .bow-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, #ffd700, #ffb703);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* Estado y countdown */
+        .status {
+            font-size: 1rem;
+            margin: 15px 0 8px;
+            min-height: 28px;
+        }
+
+        .status.locked { color: rgba(255,213,74,0.9); }
+        .status.unlocked { color: #35d07f; font-weight: 700; }
+
+        .timer {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .time-unit {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            padding: 12px 16px;
+            min-width: 70px;
+        }
+
+        .time-unit .number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffd700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .time-unit .label {
+            font-size: 0.7rem;
+            color: rgba(243,246,255,0.65);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hint {
+            font-size: 0.85rem;
+            color: rgba(243,246,255,0.7);
+            margin-top: 12px;
+        }
+
+        .hint-icon {
+            animation: bounce 1s infinite;
+            display: inline-block;
+        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        /* Modal de revelación */
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-card {
+            width: min(560px, 94vw);
+            background: rgba(14, 18, 34, 0.95);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 28px;
+            padding: 35px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: modalIn 0.5s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.8) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-glow {
+            position: absolute;
+            inset: -50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,213,74,0.15), transparent 40%),
+                        radial-gradient(circle at 70% 60%, rgba(93,173,255,0.15), transparent 40%),
+                        radial-gradient(circle at 50% 80%, rgba(53,208,127,0.12), transparent 40%);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        .modal-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .plane-icon {
+            font-size: 5rem;
+            animation: flyPlane 2s ease-in-out infinite;
+        }
+        @keyframes flyPlane {
+            0%, 100% { transform: translateX(0) rotate(-5deg); }
+            50% { transform: translateX(10px) rotate(5deg); }
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-message {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+        .destination {
+            font-size: 3rem;
+            margin: 15px 0;
+            text-shadow: 0 0 30px rgba(255,213,74,0.5);
+        }
+
+        .travelers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .traveler {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .traveler-icon {
+            font-size: 1.3rem;
+        }
+
+        .date-badge {
+            background: linear-gradient(135deg, rgba(255,213,74,0.2), rgba(255,77,109,0.2));
+            border: 1px solid rgba(255,213,74,0.4);
+            border-radius: 16px;
+            padding: 15px 25px;
+            margin: 20px auto;
+            display: inline-block;
+        }
+
+        .date-badge .label {
+            color: rgba(243,246,255,0.7);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .date-badge .date {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #ffd700;
+            font-weight: 900;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            border: none;
+            color: #0a0a1a;
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover { transform: scale(1.05); }
+
+        /* Confetti */
+        #confetti {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2000;
+            display: none;
+        }
+
+        #confetti.active { display: block; }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Snowflakes navideños */
+        .snowflake {
+            position: fixed;
+            color: white;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.7;
+            animation: snowfall linear infinite;
+        }
+        @keyframes snowfall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="stars" id="stars"></div>
+    <div id="snowflakes"></div>
+
+    <div class="container">
+        <div class="card">
+            <h1>🎁 Un Regalo Muy Especial</h1>
+            <p class="subtitle">Este regalo se desbloquea a medianoche del 25 de Diciembre ✨</p>
+
+            <div class="gift-container">
+                <button class="gift-btn" id="giftBtn" aria-label="Abrir regalo">
+                    <div class="gift-glow"></div>
+                    <div class="gift">
+                        <div class="box-lid" id="boxLid">
+                            <div class="bow">
+                                <div class="bow-loop left"></div>
+                                <div class="bow-loop right"></div>
+                                <div class="bow-center"></div>
+                            </div>
+                        </div>
+                        <div class="box-base"></div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="status locked" id="status">🔒 Regalo bloqueado</div>
+
+            <div class="timer" id="timer">
+                <div class="time-unit">
+                    <div class="number" id="hours">00</div>
+                    <div class="label">Horas</div>
+                </div>
+                <div class="time-unit">
+                    <div class="number" id="minutes">00</div>
+                    <div class="label">Minutos</div>
+                </div>
+                <div class="time-unit">
+                    <div class="number" id="seconds">00</div>
+                    <div class="label">Segundos</div>
+                </div>
+            </div>
+
+            <p class="hint" id="hint">
+                <span class="hint-icon">👆</span> Tocá el regalo cuando esté desbloqueado
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal de revelación -->
+    <div class="modal" id="modal">
+        <div class="modal-card">
+            <div class="modal-glow"></div>
+            <div class="modal-content">
+                <div class="plane-icon">✈️</div>
+                <h2 class="modal-title">¡Feliz Navidad!</h2>
+                <div class="destination">🏙️ DUBAI 🌴</div>
+                <p class="modal-message">
+                    ¡Nos vamos los 4 de viaje!
+                </p>
+                
+                <div class="travelers">
+                    <div class="traveler"><span class="traveler-icon">👨</span> Christian</div>
+                    <div class="traveler"><span class="traveler-icon">👩</span> Monica</div>
+                    <div class="traveler"><span class="traveler-icon">👦</span> Lucas</div>
+                    <div class="traveler"><span class="traveler-icon">👦</span> Matias</div>
+                </div>
+
+                <div class="date-badge">
+                    <div class="label">📅 Fecha del viaje</div>
+                    <div class="date">Junio 2026</div>
+                </div>
+
+                <p style="font-size: 2rem; margin: 15px 0;">🎄🎁🦌🛷🎅</p>
+
+                <button class="close-btn" onclick="closeModal()">¡Increíble! 🎉</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="confetti"></canvas>
+
+    <script>
+        // ==========================================
+        // CONFIGURACIÓN
+        // ==========================================
+        // Hora de desbloqueo: 25/12/2025 a las 00:00
+        const UNLOCK_DATE = new Date(2025, 11, 25, 0, 0, 0);
+
+        // ==========================================
+        // Crear estrellas de fondo
+        // ==========================================
+        const starsContainer = document.getElementById('stars');
+        for(let i = 0; i < 60; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            star.style.width = (Math.random() * 2 + 1) + 'px';
+            star.style.height = star.style.width;
+            starsContainer.appendChild(star);
+        }
+
+        // ==========================================
+        // Copos de nieve
+        // ==========================================
+        const snowContainer = document.getElementById('snowflakes');
+        const snowflakes = ['❄', '❅', '❆', '✦'];
+        for(let i = 0; i < 30; i++) {
+            const snow = document.createElement('div');
+            snow.className = 'snowflake';
+            snow.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+            snow.style.left = Math.random() * 100 + 'vw';
+            snow.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            snow.style.animationDelay = Math.random() * 6 + 's';
+            snow.style.fontSize = (Math.random() * 14 + 10) + 'px';
+            snowContainer.appendChild(snow);
+        }
+
+        // ==========================================
+        // Elementos del DOM
+        // ==========================================
+        const giftBtn = document.getElementById('giftBtn');
+        const boxLid = document.getElementById('boxLid');
+        const status = document.getElementById('status');
+        const timer = document.getElementById('timer');
+        const hint = document.getElementById('hint');
+        const hours = document.getElementById('hours');
+        const minutes = document.getElementById('minutes');
+        const seconds = document.getElementById('seconds');
+        const modal = document.getElementById('modal');
+        const confettiCanvas = document.getElementById('confetti');
+        const ctx = confettiCanvas.getContext('2d');
+
+        // ==========================================
+        // Funciones de utilidad
+        // ==========================================
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        function isUnlocked() {
+            return new Date() >= UNLOCK_DATE;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = UNLOCK_DATE - now;
+
+            if(isUnlocked()) {
+                status.textContent = '✅ ¡Regalo desbloqueado!';
+                status.className = 'status unlocked';
+                hours.textContent = '00';
+                minutes.textContent = '00';
+                seconds.textContent = '00';
+                hint.innerHTML = '<span class="hint-icon">👆</span> ¡Tocá el regalo para abrirlo!';
+                giftBtn.style.animation = 'float 2s ease-in-out infinite, pulse 1s ease-in-out infinite';
+                return;
+            }
+
+            const h = Math.floor(diff / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            hours.textContent = pad(h);
+            minutes.textContent = pad(m);
+            seconds.textContent = pad(s);
+        }
+
+        // ==========================================
+        // Evento de clic en el regalo
+        // ==========================================
+        giftBtn.addEventListener('click', () => {
+            if(!isUnlocked()) {
+                // Vibración si está disponible
+                if(navigator.vibrate) navigator.vibrate([50, 30, 50]);
+                
+                // Animación de "no se puede"
+                giftBtn.animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-8px) rotate(-2deg)' },
+                    { transform: 'translateX(8px) rotate(2deg)' },
+                    { transform: 'translateX(-8px) rotate(-2deg)' },
+                    { transform: 'translateX(8px) rotate(2deg)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 500, easing: 'ease-out' });
+
+                status.textContent = '⏰ ¡Todavía no! Esperá a medianoche...';
+                return;
+            }
+
+            // ¡Abrir el regalo!
+            openGift();
+        });
+
+        function openGift() {
+            // Animar la tapa
+            boxLid.classList.add('open');
+            
+            // Vibración de celebración
+            if(navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+
+            // Mostrar modal después de la animación
+            setTimeout(() => {
+                modal.classList.add('active');
+                startConfetti();
+            }, 400);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            stopConfetti();
+        }
+
+        // Cerrar modal tocando afuera
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeModal();
+        });
+
+        // ==========================================
+        // Confetti
+        // ==========================================
+        let confettiPieces = [];
+        let confettiAnimation;
+
+        function startConfetti() {
+            confettiCanvas.classList.add('active');
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#ff9ff3', '#54a0ff', '#5f27cd'];
+            confettiPieces = [];
+            
+            for(let i = 0; i < 150; i++) {
+                confettiPieces.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * -confettiCanvas.height,
+                    w: Math.random() * 12 + 6,
+                    h: Math.random() * 8 + 4,
+                    vx: (Math.random() - 0.5) * 3,
+                    vy: Math.random() * 4 + 2,
+                    rot: Math.random() * 360,
+                    vr: (Math.random() - 0.5) * 10,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: 1
+                });
+            }
+            
+            animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            
+            let activeCount = 0;
+            
+            confettiPieces.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.rot += p.vr;
+                p.vy += 0.1; // gravedad
+                
+                if(p.y > confettiCanvas.height + 50) {
+                    p.alpha = 0;
+                } else {
+                    activeCount++;
+                }
+                
+                if(p.alpha > 0) {
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha;
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot * Math.PI / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+                    ctx.restore();
+                }
+            });
+            
+            if(activeCount > 0) {
+                confettiAnimation = requestAnimationFrame(animateConfetti);
+            } else {
+                stopConfetti();
+            }
+        }
+
+        function stopConfetti() {
+            confettiCanvas.classList.remove('active');
+            if(confettiAnimation) cancelAnimationFrame(confettiAnimation);
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+
+        // ==========================================
+        // Inicialización
+        // ==========================================
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
