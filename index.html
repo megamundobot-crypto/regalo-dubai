@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a0a1a">
-    <title>🎁 Un Regalo Especial</title>
+    <title>🎁 Regalo Familiar</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,427 +18,15 @@
             overflow-x: hidden;
             color: #f3f6ff;
         }
-
-        /* Efecto de luz giratorio */
         .glow-bg {
             position: fixed; inset: -40%;
-            background: conic-gradient(from 180deg, 
-                rgba(255,213,74,.15), rgba(255,77,109,.12),
-                rgba(53,208,127,.10), rgba(93,173,255,.12),
-                rgba(255,213,74,.15));
+            background: conic-gradient(from 180deg, rgba(255,213,74,.15), rgba(255,77,109,.12), rgba(53,208,127,.10), rgba(93,173,255,.12), rgba(255,213,74,.15));
             filter: blur(80px);
             animation: spin 20s linear infinite;
             opacity: 0.6;
             pointer-events: none;
-            z-index: 0;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Estrellas de fondo */
-        .stars {
-            position: fixed; inset: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .star {
-            position: absolute;
-            width: 3px; height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s ease-in-out infinite;
-        }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .card {
-            width: min(580px, 94vw);
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 28px;
-            padding: 30px 24px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
-            text-align: center;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #ffd700, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            color: rgba(243,246,255,0.75);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-
-        /* Regalo 3D */
-        .gift-container {
-            perspective: 1000px;
-            padding: 20px 0;
-        }
-
-        .gift-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-            position: relative;
-            width: 220px;
-            height: 240px;
-            filter: drop-shadow(0 20px 40px rgba(255,77,109,0.3));
-            animation: float 3s ease-in-out infinite;
-            transform-style: preserve-3d;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-12px) rotateY(3deg); }
-        }
-
-        /* Brillo pulsante */
-        .gift-glow {
-            position: absolute;
-            inset: -20%;
-            border-radius: 30px;
-            background: radial-gradient(circle at 30% 30%, rgba(255,213,74,0.4), transparent 50%),
-                        radial-gradient(circle at 70% 40%, rgba(255,77,109,0.35), transparent 50%),
-                        radial-gradient(circle at 50% 80%, rgba(93,173,255,0.25), transparent 50%);
-            filter: blur(3px);
-            animation: pulse 1.5s ease-in-out infinite;
-            pointer-events: none;
-        }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
-
-        .gift {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .box-base {
-            width: 180px;
-            height: 120px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03)),
-                        linear-gradient(135deg, #ff3d68, #e91e4d);
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .box-base::before {
-            content: "";
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 28px;
-            height: 100%;
-            background: linear-gradient(180deg, #ffd700, #ffb703);
-            opacity: 0.95;
-        }
-
-        .box-lid {
-            width: 190px;
-            height: 55px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.04)),
-                        linear-gradient(135deg, #ff3d68, #e91e4d);
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.2);
-            position: relative;
-            margin-bottom: -8px;
-            transform-origin: bottom center;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .box-lid::before {
-            content: "";
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 28px;
-            height: 100%;
-            background: linear-gradient(180deg, #ffd700, #ffb703);
-            opacity: 0.95;
-        }
-
-        .box-lid.open {
-            transform: rotateX(-100deg) translateY(-20px);
-        }
-
-        /* Moño */
-        .bow {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 45px;
-        }
-
-        .bow-loop {
-            position: absolute;
-            width: 35px;
-            height: 28px;
-            background: linear-gradient(135deg, #ffd700, #ffb703);
-            border-radius: 50% 50% 50% 50%;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        .bow-loop.left {
-            left: 0;
-            transform: rotate(-20deg);
-        }
-
-        .bow-loop.right {
-            right: 0;
-            transform: rotate(20deg) scaleX(-1);
-        }
-
-        .bow-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 0;
-            width: 22px;
-            height: 22px;
-            background: linear-gradient(135deg, #ffd700, #ffb703);
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        /* Estado y countdown */
-        .status {
-            font-size: 1rem;
-            margin: 15px 0 8px;
-            min-height: 28px;
-        }
-
-        .status.locked { color: rgba(255,213,74,0.9); }
-        .status.unlocked { color: #35d07f; font-weight: 700; }
-
-        .timer {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 15px 0;
-        }
-
-        .time-unit {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 16px;
-            padding: 12px 16px;
-            min-width: 70px;
-        }
-
-        .time-unit .number {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #ffd700;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .time-unit .label {
-            font-size: 0.7rem;
-            color: rgba(243,246,255,0.65);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .hint {
-            font-size: 0.85rem;
-            color: rgba(243,246,255,0.7);
-            margin-top: 12px;
-        }
-
-        .hint-icon {
-            animation: bounce 1s infinite;
-            display: inline-block;
-        }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-        /* Modal de revelación */
-        .modal {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal.active { display: flex; }
-
-        .modal-card {
-            width: min(560px, 94vw);
-            background: rgba(14, 18, 34, 0.95);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 28px;
-            padding: 35px 25px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            animation: modalIn 0.5s ease-out;
-        }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.8) translateY(30px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .modal-glow {
-            position: absolute;
-            inset: -50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,213,74,0.15), transparent 40%),
-                        radial-gradient(circle at 70% 60%, rgba(93,173,255,0.15), transparent 40%),
-                        radial-gradient(circle at 50% 80%, rgba(53,208,127,0.12), transparent 40%);
-            filter: blur(40px);
-            pointer-events: none;
-        }
-
-        .modal-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .plane-icon {
-            font-size: 5rem;
-            animation: flyPlane 2s ease-in-out infinite;
-        }
-        @keyframes flyPlane {
-            0%, 100% { transform: translateX(0) rotate(-5deg); }
-            50% { transform: translateX(10px) rotate(5deg); }
-        }
-
-        .modal-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            margin: 15px 0;
-            background: linear-gradient(135deg, #ffd700, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .modal-message {
-            font-size: 1.3rem;
-            line-height: 1.6;
-            margin: 20px 0;
-        }
-
-        .destination {
-            font-size: 3rem;
-            margin: 15px 0;
-            text-shadow: 0 0 30px rgba(255,213,74,0.5);
-        }
-
-        .travelers {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin: 25px 0;
-        }
-
-        .traveler {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 50px;
-            padding: 10px 20px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .traveler-icon {
-            font-size: 1.3rem;
-        }
-
-        .date-badge {
-            background: linear-gradient(135deg, rgba(255,213,74,0.2), rgba(255,77,109,0.2));
-            border: 1px solid rgba(255,213,74,0.4);
-            border-radius: 16px;
-            padding: 15px 25px;
-            margin: 20px auto;
-            display: inline-block;
-        }
-
-        .date-badge .label {
-            color: rgba(243,246,255,0.7);
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-        }
-
-        .date-badge .date {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: #ffd700;
-            font-weight: 900;
-        }
-
-        .close-btn {
-            background: linear-gradient(135deg, #ffd700, #ff6b6b);
-            border: none;
-            color: #0a0a1a;
-            padding: 14px 35px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: transform 0.2s;
-        }
-
-        .close-btn:hover { transform: scale(1.05); }
-
-        /* Confetti */
-        #confetti {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 2000;
-            display: none;
-        }
-
-        #confetti.active { display: block; }
-
-        .confetti-piece {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            animation: confettiFall 3s linear forwards;
-        }
-
-        @keyframes confettiFall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* Snowflakes navideños */
         .snowflake {
             position: fixed;
             color: white;
@@ -451,304 +39,392 @@
             0% { transform: translateY(-10vh) rotate(0deg); }
             100% { transform: translateY(110vh) rotate(360deg); }
         }
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        .card {
+            width: min(500px, 96vw);
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 25px 20px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: rgba(243,246,255,0.75); font-size: 0.9rem; margin-bottom: 15px; }
+        .gift-mini {
+            font-size: 4rem;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(255,77,109,0.3));
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .timer-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        .time-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 8px 12px;
+            min-width: 55px;
+        }
+        .time-box .num { font-size: 1.4rem; font-weight: 900; color: #ffd700; }
+        .time-box .lbl { font-size: 0.65rem; color: rgba(243,246,255,0.6); text-transform: uppercase; }
+        .pins-section { margin: 20px 0; }
+        .pins-title { font-size: 0.95rem; margin-bottom: 12px; color: rgba(243,246,255,0.85); }
+        .pin-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            justify-content: center;
+        }
+        .pin-label {
+            width: 90px;
+            text-align: right;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+        .pin-input {
+            width: 100px;
+            padding: 10px;
+            font-size: 1.2rem;
+            text-align: center;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            letter-spacing: 4px;
+            transition: all 0.3s;
+        }
+        .pin-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255,213,74,0.3);
+        }
+        .pin-input.correct { border-color: #35d07f; background: rgba(53,208,127,0.15); }
+        .pin-input.wrong { border-color: #ff4d6d; animation: shake 0.5s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .pin-status { width: 30px; font-size: 1.2rem; }
+        .open-btn {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            border: none;
+            color: #0a0a1a;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .open-btn.ready { opacity: 1; pointer-events: auto; animation: pulse-btn 1.5s infinite; }
+        @keyframes pulse-btn { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .status-msg { margin-top: 12px; font-size: 0.85rem; min-height: 24px; }
+        .status-msg.error { color: #ff6b6b; }
+        .status-msg.success { color: #35d07f; }
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0;
+            display: none; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal.active { display: flex; }
+        .modal-card {
+            width: min(500px, 94vw);
+            background: rgba(14, 18, 34, 0.95);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            animation: modalIn 0.6s ease-out;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.7) translateY(50px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .plane { font-size: 5rem; animation: fly 2s ease-in-out infinite; }
+        @keyframes fly { 0%, 100% { transform: translateX(-5px) rotate(-5deg); } 50% { transform: translateX(5px) rotate(5deg); } }
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .destination { font-size: 2.5rem; margin: 15px 0; }
+        .date-reveal {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #ffd700;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255,213,74,0.1);
+            border: 2px solid rgba(255,213,74,0.3);
+            border-radius: 16px;
+        }
+        .travelers-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
+        .traveler-chip {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-weight: 700;
+        }
+        .close-modal-btn {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            border: none;
+            color: #0a0a1a;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 2000; display: none; }
+        #confetti.active { display: block; }
     </style>
 </head>
 <body>
     <div class="glow-bg"></div>
-    <div class="stars" id="stars"></div>
     <div id="snowflakes"></div>
-
     <div class="container">
         <div class="card">
-            <h1>🎁 Un Regalo Muy Especial</h1>
-            <p class="subtitle">Este regalo se desbloquea a medianoche del 25 de Diciembre ✨</p>
-
-            <div class="gift-container">
-                <button class="gift-btn" id="giftBtn" aria-label="Abrir regalo">
-                    <div class="gift-glow"></div>
-                    <div class="gift">
-                        <div class="box-lid" id="boxLid">
-                            <div class="bow">
-                                <div class="bow-loop left"></div>
-                                <div class="bow-loop right"></div>
-                                <div class="bow-center"></div>
-                            </div>
-                        </div>
-                        <div class="box-base"></div>
-                    </div>
-                </button>
+            <h1>🎁 Un Regalo Familiar</h1>
+            <p class="subtitle">Este regalo requiere que TODOS ingresen su clave secreta</p>
+            <div class="gift-mini">🎁</div>
+            <div class="timer-row">
+                <div class="time-box"><div class="num" id="hh">00</div><div class="lbl">Horas</div></div>
+                <div class="time-box"><div class="num" id="mm">00</div><div class="lbl">Min</div></div>
+                <div class="time-box"><div class="num" id="ss">00</div><div class="lbl">Seg</div></div>
             </div>
-
-            <div class="status locked" id="status">🔒 Regalo bloqueado</div>
-
-            <div class="timer" id="timer">
-                <div class="time-unit">
-                    <div class="number" id="hours">00</div>
-                    <div class="label">Horas</div>
+            <div class="pins-section">
+                <div class="pins-title">🔐 Ingresen sus claves secretas:</div>
+                <div class="pin-row">
+                    <div class="pin-label">👨 Christian</div>
+                    <input type="tel" class="pin-input" id="pin1" maxlength="4" pattern="[0-9]*" inputmode="numeric" placeholder="****">
+                    <div class="pin-status" id="st1"></div>
                 </div>
-                <div class="time-unit">
-                    <div class="number" id="minutes">00</div>
-                    <div class="label">Minutos</div>
+                <div class="pin-row">
+                    <div class="pin-label">👩 Monica</div>
+                    <input type="tel" class="pin-input" id="pin2" maxlength="4" pattern="[0-9]*" inputmode="numeric" placeholder="****">
+                    <div class="pin-status" id="st2"></div>
                 </div>
-                <div class="time-unit">
-                    <div class="number" id="seconds">00</div>
-                    <div class="label">Segundos</div>
+                <div class="pin-row">
+                    <div class="pin-label">👦 Lucas</div>
+                    <input type="tel" class="pin-input" id="pin3" maxlength="4" pattern="[0-9]*" inputmode="numeric" placeholder="****">
+                    <div class="pin-status" id="st3"></div>
+                </div>
+                <div class="pin-row">
+                    <div class="pin-label">👦 Matias</div>
+                    <input type="tel" class="pin-input" id="pin4" maxlength="4" pattern="[0-9]*" inputmode="numeric" placeholder="****">
+                    <div class="pin-status" id="st4"></div>
                 </div>
             </div>
-
-            <p class="hint" id="hint">
-                <span class="hint-icon">👆</span> Tocá el regalo cuando esté desbloqueado
-            </p>
+            <button class="open-btn" id="openBtn">🎁 ABRIR REGALO</button>
+            <div class="status-msg" id="statusMsg"></div>
         </div>
     </div>
-
-    <!-- Modal de revelación -->
     <div class="modal" id="modal">
         <div class="modal-card">
-            <div class="modal-glow"></div>
-            <div class="modal-content">
-                <div class="plane-icon">✈️</div>
-                <h2 class="modal-title">¡Feliz Navidad!</h2>
-                <div class="destination">🏙️ DUBAI 🌴</div>
-                <p class="modal-message">
-                    ¡Nos vamos los 4 de viaje!
-                </p>
-                
-                <div class="travelers">
-                    <div class="traveler"><span class="traveler-icon">👨</span> Christian</div>
-                    <div class="traveler"><span class="traveler-icon">👩</span> Monica</div>
-                    <div class="traveler"><span class="traveler-icon">👦</span> Lucas</div>
-                    <div class="traveler"><span class="traveler-icon">👦</span> Matias</div>
-                </div>
-
-                <div class="date-badge">
-                    <div class="label">📅 Fecha del viaje</div>
-                    <div class="date">Junio 2026</div>
-                </div>
-
-                <p style="font-size: 2rem; margin: 15px 0;">🎄🎁🦌🛷🎅</p>
-
-                <button class="close-btn" onclick="closeModal()">¡Increíble! 🎉</button>
+            <div class="plane">✈️</div>
+            <h2 class="modal-title">¡FELIZ NAVIDAD!</h2>
+            <div class="destination">🏙️ ¡NOS VAMOS A DUBAI! 🌴</div>
+            <div class="date-reveal">📅 06/06/2026</div>
+            <div class="travelers-list">
+                <div class="traveler-chip">👨 Christian</div>
+                <div class="traveler-chip">👩 Monica</div>
+                <div class="traveler-chip">👦 Lucas</div>
+                <div class="traveler-chip">👦 Matias</div>
             </div>
+            <p style="font-size: 2rem; margin: 10px 0;">🎄🎁🦌🛷🎅✨</p>
+            <button class="close-modal-btn" onclick="document.getElementById('modal').classList.remove('active')">¡INCREÍBLE! 🎉</button>
         </div>
     </div>
-
     <canvas id="confetti"></canvas>
-
     <script>
-        // ==========================================
-        // CONFIGURACIÓN
-        // ==========================================
-        // Hora de desbloqueo: 25/12/2025 a las 00:00
-        const UNLOCK_DATE = new Date(2025, 11, 25, 0, 0, 0);
-
-        // ==========================================
-        // Crear estrellas de fondo
-        // ==========================================
-        const starsContainer = document.getElementById('stars');
-        for(let i = 0; i < 60; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.top = Math.random() * 100 + 'vh';
-            star.style.animationDelay = Math.random() * 2 + 's';
-            star.style.width = (Math.random() * 2 + 1) + 'px';
-            star.style.height = star.style.width;
-            starsContainer.appendChild(star);
+        const UNLOCK = new Date(2025, 11, 25, 0, 0, 0);
+        const PINS = { pin1: '1939', pin2: '2025', pin3: '2020', pin4: '1010' };
+        const snowC = document.getElementById('snowflakes');
+        const flakes = ['❄','❅','❆','✦'];
+        for(let i=0;i<25;i++){
+            const s = document.createElement('div');
+            s.className = 'snowflake';
+            s.textContent = flakes[Math.floor(Math.random()*flakes.length)];
+            s.style.left = Math.random()*100+'vw';
+            s.style.animationDuration = (Math.random()*4+4)+'s';
+            s.style.animationDelay = Math.random()*6+'s';
+            s.style.fontSize = (Math.random()*12+10)+'px';
+            snowC.appendChild(s);
         }
-
-        // ==========================================
-        // Copos de nieve
-        // ==========================================
-        const snowContainer = document.getElementById('snowflakes');
-        const snowflakes = ['❄', '❅', '❆', '✦'];
-        for(let i = 0; i < 30; i++) {
-            const snow = document.createElement('div');
-            snow.className = 'snowflake';
-            snow.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
-            snow.style.left = Math.random() * 100 + 'vw';
-            snow.style.animationDuration = (Math.random() * 4 + 4) + 's';
-            snow.style.animationDelay = Math.random() * 6 + 's';
-            snow.style.fontSize = (Math.random() * 14 + 10) + 'px';
-            snowContainer.appendChild(snow);
-        }
-
-        // ==========================================
-        // Elementos del DOM
-        // ==========================================
-        const giftBtn = document.getElementById('giftBtn');
-        const boxLid = document.getElementById('boxLid');
-        const status = document.getElementById('status');
-        const timer = document.getElementById('timer');
-        const hint = document.getElementById('hint');
-        const hours = document.getElementById('hours');
-        const minutes = document.getElementById('minutes');
-        const seconds = document.getElementById('seconds');
+        const hh = document.getElementById('hh');
+        const mm = document.getElementById('mm');
+        const ss = document.getElementById('ss');
+        const openBtn = document.getElementById('openBtn');
+        const statusMsg = document.getElementById('statusMsg');
         const modal = document.getElementById('modal');
         const confettiCanvas = document.getElementById('confetti');
         const ctx = confettiCanvas.getContext('2d');
-
-        // ==========================================
-        // Funciones de utilidad
-        // ==========================================
-        function pad(n) { return String(n).padStart(2, '0'); }
-
-        function isUnlocked() {
-            return new Date() >= UNLOCK_DATE;
-        }
-
-        function updateCountdown() {
-            const now = new Date();
-            const diff = UNLOCK_DATE - now;
-
-            if(isUnlocked()) {
-                status.textContent = '✅ ¡Regalo desbloqueado!';
-                status.className = 'status unlocked';
-                hours.textContent = '00';
-                minutes.textContent = '00';
-                seconds.textContent = '00';
-                hint.innerHTML = '<span class="hint-icon">👆</span> ¡Tocá el regalo para abrirlo!';
-                giftBtn.style.animation = 'float 2s ease-in-out infinite, pulse 1s ease-in-out infinite';
+        function pad(n){ return String(n).padStart(2,'0'); }
+        function isUnlocked(){ return new Date() >= UNLOCK; }
+        function updateTimer(){
+            const diff = UNLOCK - new Date();
+            if(diff <= 0){
+                hh.textContent = '00'; mm.textContent = '00'; ss.textContent = '00';
                 return;
             }
-
-            const h = Math.floor(diff / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            hours.textContent = pad(h);
-            minutes.textContent = pad(m);
-            seconds.textContent = pad(s);
+            const h = Math.floor(diff/(1000*60*60));
+            const m = Math.floor((diff%(1000*60*60))/(1000*60));
+            const s = Math.floor((diff%(1000*60))/1000);
+            hh.textContent = pad(h);
+            mm.textContent = pad(m);
+            ss.textContent = pad(s);
         }
-
-        // ==========================================
-        // Evento de clic en el regalo
-        // ==========================================
-        giftBtn.addEventListener('click', () => {
-            if(!isUnlocked()) {
-                // Vibración si está disponible
-                if(navigator.vibrate) navigator.vibrate([50, 30, 50]);
-                
-                // Animación de "no se puede"
-                giftBtn.animate([
-                    { transform: 'translateX(0)' },
-                    { transform: 'translateX(-8px) rotate(-2deg)' },
-                    { transform: 'translateX(8px) rotate(2deg)' },
-                    { transform: 'translateX(-8px) rotate(-2deg)' },
-                    { transform: 'translateX(8px) rotate(2deg)' },
-                    { transform: 'translateX(0)' }
-                ], { duration: 500, easing: 'ease-out' });
-
-                status.textContent = '⏰ ¡Todavía no! Esperá a medianoche...';
+        function checkPins(){
+            let allCorrect = true;
+            ['pin1','pin2','pin3','pin4'].forEach((id, i) => {
+                const inp = document.getElementById(id);
+                const st = document.getElementById('st'+(i+1));
+                const val = inp.value;
+                if(val.length === 4){
+                    if(val === PINS[id]){
+                        inp.classList.add('correct');
+                        inp.classList.remove('wrong');
+                        st.textContent = '✅';
+                    } else {
+                        inp.classList.add('wrong');
+                        inp.classList.remove('correct');
+                        st.textContent = '❌';
+                        allCorrect = false;
+                    }
+                } else {
+                    inp.classList.remove('correct','wrong');
+                    st.textContent = '';
+                    allCorrect = false;
+                }
+            });
+            return allCorrect;
+        }
+        function updateStatus(){
+            const pinsOk = checkPins();
+            const timeOk = isUnlocked();
+            if(!timeOk){
+                statusMsg.textContent = '⏰ Esperá a las 00:00 del 25/12...';
+                statusMsg.className = 'status-msg error';
+                openBtn.classList.remove('ready');
+            } else if(!pinsOk){
+                statusMsg.textContent = '🔐 Faltan claves o hay claves incorrectas';
+                statusMsg.className = 'status-msg error';
+                openBtn.classList.remove('ready');
+            } else {
+                statusMsg.textContent = '✅ ¡Todo listo! Pueden abrir el regalo';
+                statusMsg.className = 'status-msg success';
+                openBtn.classList.add('ready');
+            }
+        }
+        ['pin1','pin2','pin3','pin4'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateStatus);
+        });
+        openBtn.addEventListener('click', () => {
+            if(!isUnlocked()){
+                statusMsg.textContent = '⏰ ¡Todavía no es hora!';
+                statusMsg.className = 'status-msg error';
+                if(navigator.vibrate) navigator.vibrate([50,30,50]);
                 return;
             }
-
-            // ¡Abrir el regalo!
-            openGift();
+            if(!checkPins()){
+                statusMsg.textContent = '❌ Claves incorrectas';
+                statusMsg.className = 'status-msg error';
+                if(navigator.vibrate) navigator.vibrate([50,30,50]);
+                return;
+            }
+            if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+            modal.classList.add('active');
+            startConfetti();
         });
-
-        function openGift() {
-            // Animar la tapa
-            boxLid.classList.add('open');
-            
-            // Vibración de celebración
-            if(navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
-
-            // Mostrar modal después de la animación
-            setTimeout(() => {
-                modal.classList.add('active');
-                startConfetti();
-            }, 400);
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-            stopConfetti();
-        }
-
-        // Cerrar modal tocando afuera
-        modal.addEventListener('click', (e) => {
-            if(e.target === modal) closeModal();
-        });
-
-        // ==========================================
-        // Confetti
-        // ==========================================
         let confettiPieces = [];
-        let confettiAnimation;
-
-        function startConfetti() {
+        let confettiAnim;
+        function startConfetti(){
             confettiCanvas.classList.add('active');
             confettiCanvas.width = window.innerWidth;
             confettiCanvas.height = window.innerHeight;
-            
-            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#ff9ff3', '#54a0ff', '#5f27cd'];
+            const colors = ['#ffd700','#ff6b6b','#4ecdc4','#ff9ff3','#54a0ff'];
             confettiPieces = [];
-            
-            for(let i = 0; i < 150; i++) {
+            for(let i=0;i<120;i++){
                 confettiPieces.push({
-                    x: Math.random() * confettiCanvas.width,
-                    y: Math.random() * -confettiCanvas.height,
-                    w: Math.random() * 12 + 6,
-                    h: Math.random() * 8 + 4,
-                    vx: (Math.random() - 0.5) * 3,
-                    vy: Math.random() * 4 + 2,
-                    rot: Math.random() * 360,
-                    vr: (Math.random() - 0.5) * 10,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    alpha: 1
+                    x: Math.random()*confettiCanvas.width,
+                    y: Math.random()*-confettiCanvas.height,
+                    w: Math.random()*10+5,
+                    h: Math.random()*6+3,
+                    vx: (Math.random()-0.5)*2,
+                    vy: Math.random()*3+2,
+                    rot: Math.random()*360,
+                    vr: (Math.random()-0.5)*8,
+                    color: colors[Math.floor(Math.random()*colors.length)],
+                    a: 1
                 });
             }
-            
-            animateConfetti();
+            animConfetti();
         }
-
-        function animateConfetti() {
-            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-            
-            let activeCount = 0;
-            
+        function animConfetti(){
+            ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+            let active = 0;
             confettiPieces.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.rot += p.vr;
-                p.vy += 0.1; // gravedad
-                
-                if(p.y > confettiCanvas.height + 50) {
-                    p.alpha = 0;
-                } else {
-                    activeCount++;
-                }
-                
-                if(p.alpha > 0) {
+                p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.vy += 0.08;
+                if(p.y > confettiCanvas.height+50) p.a = 0;
+                else active++;
+                if(p.a > 0){
                     ctx.save();
-                    ctx.globalAlpha = p.alpha;
+                    ctx.globalAlpha = p.a;
                     ctx.translate(p.x, p.y);
-                    ctx.rotate(p.rot * Math.PI / 180);
+                    ctx.rotate(p.rot*Math.PI/180);
                     ctx.fillStyle = p.color;
-                    ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+                    ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
                     ctx.restore();
                 }
             });
-            
-            if(activeCount > 0) {
-                confettiAnimation = requestAnimationFrame(animateConfetti);
-            } else {
-                stopConfetti();
-            }
+            if(active > 0) confettiAnim = requestAnimationFrame(animConfetti);
+            else { confettiCanvas.classList.remove('active'); ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height); }
         }
-
-        function stopConfetti() {
-            confettiCanvas.classList.remove('active');
-            if(confettiAnimation) cancelAnimationFrame(confettiAnimation);
-            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-        }
-
-        // ==========================================
-        // Inicialización
-        // ==========================================
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
+        updateTimer();
+        updateStatus();
+        setInterval(updateTimer, 1000);
+        setInterval(updateStatus, 1000);
     </script>
 </body>
 </html>
