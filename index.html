@@ -345,8 +345,13 @@
             const pinsOk = checkPins();
             const timeOk = isUnlocked();
             if(!timeOk){
-                statusMsg.textContent = '⏰ Esperá a las 00:00 del 25/12...';
-                statusMsg.className = 'status-msg error';
+                if(pinsOk){
+                    statusMsg.textContent = '✅ ¡Claves correctas! Esperando las 00:00 del 25/12...';
+                    statusMsg.className = 'status-msg success';
+                } else {
+                    statusMsg.textContent = '🔐 Ingresen sus claves mientras esperan...';
+                    statusMsg.className = 'status-msg';
+                }
                 openBtn.classList.remove('ready');
             } else if(!pinsOk){
                 statusMsg.textContent = '🔐 Faltan claves o hay claves incorrectas';
